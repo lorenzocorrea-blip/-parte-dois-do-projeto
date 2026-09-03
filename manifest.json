@@ -8,19 +8,18 @@
     "orientation": "portrait",
     "background_color": "#ffffff",
     "theme_color": "#1f5c99",
-
     "icons": [
         {
-            "src": "https://i.pinimg.com/736x/e1/a0/b5/e1a0b54a5fdc5b60a311bff7a60b5fe0.jpg",
-            "sizes": "736x736",
-            "type": "image/jpeg",
-            "purpose": "any"
+            "src": "./icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
         },
         {
-            "src": "https://i.pinimg.com/736x/cd/0c/f0/cd0cf01711128fa8c53dd6e7269443ab.jpg",
-            "sizes": "736x736",
-            "type": "image/jpeg",
-            "purpose": "any"
+            "src": "./icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
         }
     ]
 }

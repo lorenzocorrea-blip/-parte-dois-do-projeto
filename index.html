@@ -9,27 +9,47 @@
     <title>Consulta do Clima</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
 
     <!-- PWA -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="./manifest.json">
 
+    <!-- Cor do aplicativo -->
     <meta name="theme-color" content="#1f5c99">
 
-    <!-- ÍCONES -->
+    <!-- Ícone principal -->
     <link
         rel="icon"
-        type="image/jpeg"
-        href="https://i.pinimg.com/736x/e1/a0/b5/e1a0b54a5fdc5b60a311bff7a60b5fe0.jpg"
+        type="image/png"
+        sizes="192x192"
+        href="./icons/icon-192.png"
     >
 
+    <!-- Ícone maior -->
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="512x512"
+        href="./icons/icon-512.png"
+    >
+
+    <!-- Ícone para celulares -->
     <link
         rel="apple-touch-icon"
-        href="https://i.pinimg.com/736x/cd/0c/f0/cd0cf01711128fa8c53dd6e7269443ab.jpg"
+        href="./icons/icon-192.png"
     >
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- Permite instalação como aplicativo -->
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
 </head>
 
 <body>
@@ -38,13 +58,16 @@
 
         <div class="card">
 
+            <!-- Aviso de conexão -->
             <div id="offlineAviso" class="offline">
                 🔴 Você está sem conexão.
                 Algumas funções podem não funcionar.
             </div>
 
+            <!-- Título -->
             <h1>Consulta do Clima</h1>
 
+            <!-- Campo da cidade -->
             <label for="cidade">
                 Digite uma cidade:
             </label>
@@ -56,10 +79,15 @@
                 autocomplete="off"
             >
 
-            <button id="buscar" type="button">
+            <!-- Botão -->
+            <button
+                id="buscar"
+                type="button"
+            >
                 Buscar clima
             </button>
 
+            <!-- Resultado -->
             <section id="resultado">
             </section>
 
@@ -67,7 +95,8 @@
 
     </main>
 
-    <script src="script.js"></script>
+    <!-- JavaScript -->
+    <script src="./script.js"></script>
 
 </body>
 
