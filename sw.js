@@ -10,7 +10,7 @@ const ARQUIVOS = [
     "./icon-512.png"
 ];
 
-// Instala o Service Worker
+// Instala o Service Worker e salva os arquivos
 self.addEventListener("install", (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -20,7 +20,7 @@ self.addEventListener("install", (event) => {
     );
 });
 
-// Busca os arquivos no cache
+// Usa os arquivos salvos quando possível
 self.addEventListener("fetch", (event) => {
     event.respondWith(
         caches.match(event.request)
