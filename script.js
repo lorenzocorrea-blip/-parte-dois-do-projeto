@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // ============================================
+=======
+
+>>>>>>> c03d6f6823198dcc4172f69130d5947f0f6b20c9
 // 1. CONFIGURAÇÃO DA API (Open-Meteo — não exige chave)
 // ============================================
 const GEO_URL = "https://geocoding-api.open-meteo.com/v1/search";
@@ -47,10 +51,15 @@ function buscarClima() {
       if (!resposta.ok) {
         throw new Error("Não foi possível consultar a cidade.");
       }
+<<<<<<< HEAD
 
       return resposta.json();
     })
 
+=======
+      return resposta.json();
+    })
+>>>>>>> c03d6f6823198dcc4172f69130d5947f0f6b20c9
     .then(dadosCidade => {
 
       // Se a API não encontrar nenhuma cidade com esse nome
@@ -66,6 +75,7 @@ function buscarClima() {
         `&longitude=${longitude}` +
         `&current=temperature_2m,relative_humidity_2m,wind_speed_10m`;
 
+<<<<<<< HEAD
       return fetch(urlClima)
         .then(resposta => {
 
@@ -87,6 +97,18 @@ function buscarClima() {
         });
     })
 
+=======
+      return fetch(urlClima).then(resposta => {
+        if (!resposta.ok) {
+          throw new Error("Erro ao consultar o clima.");
+        }
+        return resposta.json();
+      }).then(dadosClima => {
+        // repassa o nome da cidade junto com os dados do clima
+        return { nome: name, clima: dadosClima };
+      });
+    })
+>>>>>>> c03d6f6823198dcc4172f69130d5947f0f6b20c9
     .then(({ nome, clima }) => {
 
       console.log("JSON recebido:", clima);
@@ -103,7 +125,10 @@ function buscarClima() {
       // ====================================
       resultado.innerHTML = `
         <div class="card-clima">
+<<<<<<< HEAD
 
+=======
+>>>>>>> c03d6f6823198dcc4172f69130d5947f0f6b20c9
           <h2>${nome}</h2>
 
           <p>
@@ -120,6 +145,7 @@ function buscarClima() {
             Vento:
             <strong>${vento} km/h</strong>
           </p>
+<<<<<<< HEAD
 
         </div>
       `;
@@ -127,6 +153,12 @@ function buscarClima() {
 
     .catch(erro => {
 
+=======
+        </div>
+      `;
+    })
+    .catch(erro => {
+>>>>>>> c03d6f6823198dcc4172f69130d5947f0f6b20c9
       console.error(erro);
 
       resultado.innerHTML = `
@@ -134,6 +166,7 @@ function buscarClima() {
       `;
     });
 }
+<<<<<<< HEAD
 
 
 // ============================================
@@ -153,3 +186,5 @@ if ("serviceWorker" in navigator) {
     });
 
 }
+=======
+>>>>>>> c03d6f6823198dcc4172f69130d5947f0f6b20c9
