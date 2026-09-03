@@ -1,190 +1,330 @@
-<<<<<<< HEAD
 // ============================================
-=======
+// 1. CONFIGURAÇÃO DA API
+// Open-Meteo — não exige chave
+// ============================================
 
->>>>>>> c03d6f6823198dcc4172f69130d5947f0f6b20c9
-// 1. CONFIGURAÇÃO DA API (Open-Meteo — não exige chave)
-// ============================================
 const GEO_URL = "https://geocoding-api.open-meteo.com/v1/search";
 const CLIMA_URL = "https://api.open-meteo.com/v1/forecast";
+
 
 // ============================================
 // 2. ELEMENTOS DA PÁGINA
 // ============================================
+
 const botaoBuscar = document.getElementById("buscar");
 const campoCidade = document.getElementById("cidade");
 const resultado = document.getElementById("resultado");
+const offlineAviso = document.getElementById("offlineAviso");
+
 
 // ============================================
-// 3. LIGA O BOTÃO (E A TECLA ENTER) À FUNÇÃO
+// 3. INDICADOR DE CONEXÃO
 // ============================================
-botaoBuscar.addEventListener("click", buscarClima);
 
-campoCidade.addEventListener("keydown", function (evento) {
-  if (evento.key === "Enter") {
-    buscarClima();
-  }
+function atualizarConexao() {
+
+    if (navigator.onLine) {
+
+        offlineAviso.style.display = "none";
+
+    } else {
+
+        offlineAviso.style.display = "block";
+
+    }
+
+}
+
+
+// Verifica a conexão quando a página abre
+atualizarConexao();
+
+
+// Detecta quando o celular fica sem internet
+window.addEventListener("offline", function () {
+
+    atualizarConexao();
+
 });
 
+
+// Detecta quando a internet volta
+window.addEventListener("online", function () {
+
+    atualizarConexao();
+
+});
+
+
 // ============================================
-// 4. FUNÇÃO PRINCIPAL
+// 4. LIGA O BOTÃO À FUNÇÃO
 // ============================================
+
+botaoBuscar.addEventListener("click", buscarClima);
+
+
+// ============================================
+// 5. PERMITE USAR A TECLA ENTER
+// ============================================
+
+campoCidade.addEventListener("keydown", function (evento) {
+
+    if (evento.key === "Enter") {
+
+        buscarClima();
+
+    }
+
+});
+
+
+// ============================================
+// 6. FUNÇÃO PRINCIPAL
+// ============================================
+
 function buscarClima() {
 
-  const cidade = campoCidade.value.trim();
+    const cidade = campoCidade.value.trim();
 
-  // Validação: não deixa consultar a API com campo vazio
-  if (cidade === "") {
-    resultado.innerHTML = "<p>Digite o nome de uma cidade.</p>";
-    return;
-  }
 
-  resultado.innerHTML = "<p>Consultando o clima...</p>";
+    // Verifica se o campo está vazio
+    if (cidade === "") {
 
-  // ----- Etapa 1: transforma o nome da cidade em coordenadas -----
-  const urlBusca =
-    `${GEO_URL}?name=${encodeURIComponent(cidade)}` +
-    `&count=1&language=pt&format=json`;
+        resultado.innerHTML =
+            "<p>Digite o nome de uma cidade.</p>";
 
-  fetch(urlBusca)
-    .then(resposta => {
-      if (!resposta.ok) {
-        throw new Error("Não foi possível consultar a cidade.");
-      }
-<<<<<<< HEAD
+        return;
 
-      return resposta.json();
-    })
+    }
 
-=======
-      return resposta.json();
-    })
->>>>>>> c03d6f6823198dcc4172f69130d5947f0f6b20c9
-    .then(dadosCidade => {
 
-      // Se a API não encontrar nenhuma cidade com esse nome
-      if (!dadosCidade.results || dadosCidade.results.length === 0) {
-        throw new Error("Cidade não encontrada.");
-      }
+    // Verifica se está sem internet
+    if (!navigator.onLine) {
 
-      const { latitude, longitude, name } = dadosCidade.results[0];
+        resultado.innerHTML =
+            "<p>Você está sem conexão com a internet.</p>";
 
-      // ----- Etapa 2: usa as coordenadas para buscar o clima -----
-      const urlClima =
-        `${CLIMA_URL}?latitude=${latitude}` +
-        `&longitude=${longitude}` +
-        `&current=temperature_2m,relative_humidity_2m,wind_speed_10m`;
+        return;
 
-<<<<<<< HEAD
-      return fetch(urlClima)
+    }
+
+
+    // Mensagem enquanto consulta a API
+    resultado.innerHTML =
+        "<p>Consultando o clima...</p>";
+
+
+    // ============================================
+    // BUSCA A CIDADE
+    // ============================================
+
+    const urlBusca =
+        `${GEO_URL}?name=${encodeURIComponent(cidade)}` +
+        `&count=1&language=pt&format=json`;
+
+
+    fetch(urlBusca)
+
         .then(resposta => {
 
-          if (!resposta.ok) {
-            throw new Error("Erro ao consultar o clima.");
-          }
+            if (!resposta.ok) {
 
-          return resposta.json();
+                throw new Error(
+                    "Não foi possível consultar a cidade."
+                );
+
+            }
+
+            return resposta.json();
 
         })
-        .then(dadosClima => {
 
-          // Repassa o nome da cidade junto com os dados do clima
-          return {
-            nome: name,
-            clima: dadosClima
-          };
+
+        // ============================================
+        // RECEBE OS DADOS DA CIDADE
+        // ============================================
+
+        .then(dadosCidade => {
+
+            // Se a cidade não for encontrada
+            if (
+                !dadosCidade.results ||
+                dadosCidade.results.length === 0
+            ) {
+
+                throw new Error(
+                    "Cidade não encontrada."
+                );
+
+            }
+
+
+            // Pega latitude, longitude e nome
+            const {
+                latitude,
+                longitude,
+                name
+            } = dadosCidade.results[0];
+
+
+            // ============================================
+            // BUSCA O CLIMA
+            // ============================================
+
+            const urlClima =
+                `${CLIMA_URL}?latitude=${latitude}` +
+                `&longitude=${longitude}` +
+                `&current=temperature_2m,relative_humidity_2m,wind_speed_10m`;
+
+
+            return fetch(urlClima)
+
+                .then(resposta => {
+
+                    if (!resposta.ok) {
+
+                        throw new Error(
+                            "Erro ao consultar o clima."
+                        );
+
+                    }
+
+                    return resposta.json();
+
+                })
+
+
+                .then(dadosClima => {
+
+                    // Junta o nome da cidade
+                    // com os dados do clima
+
+                    return {
+
+                        nome: name,
+
+                        clima: dadosClima
+
+                    };
+
+                });
+
+        })
+
+
+        // ============================================
+        // MOSTRA O CLIMA NA TELA
+        // ============================================
+
+        .then(({ nome, clima }) => {
+
+            console.log(
+                "JSON recebido:",
+                clima
+            );
+
+
+            // Pega os dados atuais
+            const temperatura =
+                clima.current.temperature_2m;
+
+            const umidade =
+                clima.current.relative_humidity_2m;
+
+            const vento =
+                clima.current.wind_speed_10m;
+
+
+            // ============================================
+            // MOSTRA O RESULTADO
+            // ============================================
+
+            resultado.innerHTML = `
+
+                <div class="card-clima">
+
+                    <h2>${nome}</h2>
+
+                    <p>
+                        Temperatura:
+                        <strong>
+                            ${temperatura} °C
+                        </strong>
+                    </p>
+
+                    <p>
+                        Umidade:
+                        <strong>
+                            ${umidade}%
+                        </strong>
+                    </p>
+
+                    <p>
+                        Vento:
+                        <strong>
+                            ${vento} km/h
+                        </strong>
+                    </p>
+
+                </div>
+
+            `;
+
+        })
+
+
+        // ============================================
+        // TRATAMENTO DE ERROS
+        // ============================================
+
+        .catch(erro => {
+
+            console.error(erro);
+
+
+            resultado.innerHTML = `
+
+                <p>
+                    Não foi possível consultar
+                    o clima dessa cidade.
+                </p>
+
+            `;
 
         });
-    })
 
-=======
-      return fetch(urlClima).then(resposta => {
-        if (!resposta.ok) {
-          throw new Error("Erro ao consultar o clima.");
-        }
-        return resposta.json();
-      }).then(dadosClima => {
-        // repassa o nome da cidade junto com os dados do clima
-        return { nome: name, clima: dadosClima };
-      });
-    })
->>>>>>> c03d6f6823198dcc4172f69130d5947f0f6b20c9
-    .then(({ nome, clima }) => {
-
-      console.log("JSON recebido:", clima);
-
-      // ====================================
-      // 5. EXTRAI OS DADOS DO JSON DO OPEN-METEO
-      // ====================================
-      const temperatura = clima.current.temperature_2m;
-      const umidade = clima.current.relative_humidity_2m;
-      const vento = clima.current.wind_speed_10m;
-
-      // ====================================
-      // 6. MOSTRA O RESULTADO NA TELA
-      // ====================================
-      resultado.innerHTML = `
-        <div class="card-clima">
-<<<<<<< HEAD
-
-=======
->>>>>>> c03d6f6823198dcc4172f69130d5947f0f6b20c9
-          <h2>${nome}</h2>
-
-          <p>
-            Temperatura:
-            <strong>${temperatura} °C</strong>
-          </p>
-
-          <p>
-            Umidade:
-            <strong>${umidade}%</strong>
-          </p>
-
-          <p>
-            Vento:
-            <strong>${vento} km/h</strong>
-          </p>
-<<<<<<< HEAD
-
-        </div>
-      `;
-    })
-
-    .catch(erro => {
-
-=======
-        </div>
-      `;
-    })
-    .catch(erro => {
->>>>>>> c03d6f6823198dcc4172f69130d5947f0f6b20c9
-      console.error(erro);
-
-      resultado.innerHTML = `
-        <p>Não foi possível consultar o clima dessa cidade.</p>
-      `;
-    });
 }
-<<<<<<< HEAD
 
 
 // ============================================
-// 7. REGISTRA O SERVICE WORKER
+// 7. REGISTRO DO SERVICE WORKER
 // ============================================
 
 if ("serviceWorker" in navigator) {
 
-  navigator.serviceWorker.register("./sw.js")
+    window.addEventListener("load", () => {
 
-    .then(() => {
-      console.log("Service Worker registrado com sucesso!");
-    })
+        navigator.serviceWorker
 
-    .catch(erro => {
-      console.error("Erro ao registrar o Service Worker:", erro);
+            .register("sw.js")
+
+            .then(() => {
+
+                console.log(
+                    "Service Worker registrado com sucesso."
+                );
+
+            })
+
+            .catch((erro) => {
+
+                console.error(
+                    "Erro ao registrar o Service Worker:",
+                    erro
+                );
+
+            });
+
     });
 
 }
-=======
->>>>>>> c03d6f6823198dcc4172f69130d5947f0f6b20c9

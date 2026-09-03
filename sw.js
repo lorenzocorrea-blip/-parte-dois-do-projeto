@@ -1,26 +1,53 @@
 const CACHE_NAME = "clima-app-v1";
 
-const ARQUIVOS = [
+const ARQUIVOS_PARA_CACHE = [
     "./",
     "./index.html",
     "./style.css",
     "./script.js",
     "./manifest.json",
-    "./icon-192.png",
-    "./icon-512.png"
+    "./icons/icon-192.png",
+    "./icons/icon-512.png"
 ];
 
-// Instala o Service Worker e salva os arquivos
+// ============================================
+// INSTALAÇÃO DO SERVICE WORKER
+// ============================================
+
 self.addEventListener("install", (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
-                return cache.addAll(ARQUIVOS);
+                return cache.addAll(ARQUIVOS_PARA_CACHE);
             })
     );
+
+    self.skipWaiting();
 });
 
-// Usa os arquivos salvos quando possível
+// ============================================
+// ATIVAÇÃO
+// ============================================
+
+self.addEventListener("activate", (event) => {
+    event.waitUntil(
+        caches.keys()
+            .then((cachesExistentes) => {
+                return Promise.all(
+                    cachesExistentes
+                        .filter((cache) => cache !== CACHE_NAME)
+                        .map((cache) => caches.delete(cache))
+                );
+            })
+    );
+
+    self.clients.claim();
+});
+
+// ============================================
+// FUNCIONAMENTO OFFLINE
+// ============================================
+
 self.addEventListener("fetch", (event) => {
     event.respondWith(
         caches.match(event.request)

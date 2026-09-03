@@ -1,111 +1,373 @@
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+
+/* ============================================
+   PÁGINA / FUNDO
+   ============================================ */
+
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #e8f3ff, #f5f9ff);
 
     min-height: 100vh;
+    width: 100%;
+
+    background:
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(255, 255, 255, 0.9),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 85%,
+            rgba(144, 202, 249, 0.8),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #1976d2,
+            #42a5f5,
+            #e3f2fd
+        );
+
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
 
     display: flex;
     justify-content: center;
     align-items: flex-start;
 
     padding: 30px 15px;
+
+    overflow-x: hidden;
 }
+
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+
+.container {
+    width: 100%;
+    max-width: 550px;
+
+    padding: 10px;
+}
+
+
+/* ============================================
+   CARD PRINCIPAL
+   ============================================ */
 
 .card {
-    background-color: #ffffff;
-
     width: 100%;
-    max-width: 400px;
 
-    padding: 25px 20px;
+    background: rgba(255, 255, 255, 0.96);
 
-    border-radius: 14px;
+    padding: 30px 25px;
 
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.20);
 
     text-align: center;
+
+    backdrop-filter: blur(8px);
 }
+
+
+/* ============================================
+   TÍTULO
+   ============================================ */
 
 h1 {
-    color: #222;
-    font-size: 24px;
+    color: #174a7e;
 
-    margin-bottom: 20px;
+    font-size: 28px;
+
+    margin-bottom: 25px;
 }
+
+
+/* ============================================
+   TEXTO
+   ============================================ */
+
+label {
+    display: block;
+
+    color: #333;
+
+    font-size: 16px;
+
+    margin-bottom: 8px;
+}
+
+
+/* ============================================
+   CAMPO DE TEXTO
+   ============================================ */
 
 input {
     width: 100%;
-    min-height: 44px;
 
-    padding: 10px 13px;
+    min-height: 48px;
 
-    border: 1px solid #d0d7de;
-    border-radius: 7px;
+    padding: 12px 14px;
+
+    border: 2px solid #d0d7de;
+
+    border-radius: 9px;
 
     font-size: 16px;
 
     outline: none;
+
+    transition: 0.2s;
 }
 
 input:focus {
-    border-color: #2e6dc0;
+    border-color: #1976d2;
+
+    box-shadow:
+        0 0 0 3px rgba(33, 150, 243, 0.15);
 }
+
+
+/* ============================================
+   BOTÃO
+   ============================================ */
 
 button {
     width: 100%;
-    min-height: 44px;
 
-    padding: 10px 13px;
-    margin-top: 15px;
+    min-height: 48px;
 
-    background-color: #3680e0;
+    margin-top: 12px;
+
+    padding: 12px 15px;
+
+    background: #1976d2;
+
     color: white;
 
     border: none;
-    border-radius: 7px;
+
+    border-radius: 9px;
 
     font-size: 16px;
 
+    font-weight: bold;
+
     cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
 }
 
 button:hover {
-    background-color: #3d75be;
+    background: #0d5cab;
+
+    transform: translateY(-2px);
 }
 
-/* Tablets adicionados da atividade segunda. */
-@media (min-width: 600px) {
+button:active {
+    transform: translateY(0);
+}
+
+
+/* ============================================
+   RESULTADO
+   ============================================ */
+
+#resultado {
+    width: 100%;
+}
+
+
+/* ============================================
+   CARD DO CLIMA
+   ============================================ */
+
+.card-clima {
+    margin-top: 25px;
+
+    padding: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f5faff,
+            #e3f2fd
+        );
+
+    border: 1px solid #c7def2;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.card-clima h2 {
+    color: #1565c0;
+
+    font-size: 23px;
+
+    margin-bottom: 18px;
+}
+
+.card-clima p {
+    color: #333;
+
+    font-size: 16px;
+
+    margin: 10px 0;
+}
+
+.card-clima strong {
+    color: #1565c0;
+}
+
+
+/* ============================================
+   AVISO OFFLINE
+   ============================================ */
+
+.offline {
+    display: none;
+
+    width: 100%;
+
+    margin-bottom: 15px;
+
+    padding: 12px;
+
+    background: #ffe5e5;
+
+    color: #b42318;
+
+    border: 1px solid #f5b5b5;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+
+    text-align: center;
+}
+
+
+/* ============================================
+   CELULAR
+   ============================================ */
+
+@media (max-width: 599px) {
+
     body {
-        padding: 50px 20px;
+        padding: 20px 10px;
+    }
+
+    .container {
+        padding: 5px;
     }
 
     .card {
-        padding: 30px;
+        padding: 25px 18px;
+
+        border-radius: 15px;
     }
 
     h1 {
-        font-size: 26px;
+        font-size: 24px;
+
+        margin-bottom: 20px;
+    }
+
+    input {
+        min-height: 48px;
+
+        font-size: 16px;
+    }
+
+    button {
+        min-height: 48px;
+
+        font-size: 16px;
+    }
+
+    .card-clima {
+        padding: 18px;
     }
 }
 
-/* Desktop da 2 atividade. */
-@media (min-width: 900px) {
+
+/* ============================================
+   TABLET
+   ============================================ */
+
+@media (min-width: 600px) {
+
     body {
-        padding-top: 80px;
+        padding-top: 50px;
+    }
+
+    .container {
+        max-width: 550px;
     }
 
     .card {
         padding: 35px;
     }
+}
+
+
+/* ============================================
+   DESKTOP
+   ============================================ */
+
+@media (min-width: 900px) {
+
+    body {
+        padding-top: 80px;
+    }
+
+    .container {
+        max-width: 600px;
+    }
+
+    .card {
+        padding: 40px;
+    }
 
     h1 {
-        font-size: 28px;
-        margin-bottom: 25px;
+        font-size: 30px;
+    }
+}
+
+
+/* ============================================
+   TELAS GRANDES
+   ============================================ */
+
+@media (min-width: 1200px) {
+
+    .container {
+        max-width: 650px;
+    }
+
+    .card {
+        padding: 45px;
+    }
+
+    h1 {
+        font-size: 32px;
     }
 }
